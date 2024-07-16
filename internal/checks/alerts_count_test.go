@@ -14,7 +14,7 @@ import (
 )
 
 func newAlertsCheck(prom *promapi.FailoverGroup) checks.RuleChecker {
-	return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 0, "", checks.Information)
+	return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 0, "", checks.Information, false)
 }
 
 func alertsText(name, uri string, count int, since string) string {
@@ -295,7 +295,7 @@ func TestAlertsCountCheck(t *testing.T) {
 			description: "minCount=2",
 			content:     "- alert: Foo Is Down\n  for: 10m\n  expr: up{job=\"foo\"} == 0\n",
 			checker: func(prom *promapi.FailoverGroup) checks.RuleChecker {
-				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 2, "rule comment", checks.Information)
+				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 2, "rule comment", checks.Information, false)
 			},
 			prometheus: newSimpleProm,
 			problems: func(uri string) []checks.Problem {
@@ -372,7 +372,7 @@ func TestAlertsCountCheck(t *testing.T) {
 			description: "minCount=2 severity=bug",
 			content:     "- alert: Foo Is Down\n  for: 10m\n  expr: up{job=\"foo\"} == 0\n",
 			checker: func(prom *promapi.FailoverGroup) checks.RuleChecker {
-				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 2, "", checks.Bug)
+				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 2, "", checks.Bug, false)
 			},
 			prometheus: newSimpleProm,
 			problems: func(uri string) []checks.Problem {
@@ -449,7 +449,7 @@ func TestAlertsCountCheck(t *testing.T) {
 			description: "minCount=10",
 			content:     "- alert: Foo Is Down\n  for: 10m\n  expr: up{job=\"foo\"} == 0\n",
 			checker: func(prom *promapi.FailoverGroup) checks.RuleChecker {
-				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 10, "", checks.Information)
+				return checks.NewAlertsCheck(prom, time.Hour*24, time.Minute, time.Minute*5, 10, "", checks.Information, false)
 			},
 			prometheus: newSimpleProm,
 			problems:   noProblems,
